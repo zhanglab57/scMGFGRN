@@ -89,8 +89,8 @@ scMGF-GRNS/
 │   ├── Gated multi-head attention
 │   └── ERetNet
 │ 
-├── go_embedding.py/
-│   ├── GAT
+├── go_embedding.py/      #go DAG constrcution and graph enhancement
+│   ├── GAT             
 │ 
 ├── SequenceEncoder.py/
 │   ├── DNABERT-2
@@ -100,7 +100,7 @@ scMGF-GRNS/
 │   ├── Bi-GRU
 │   └── scMGF_GRNS
 │
-├── preproceessing.ipynb   # To generate go and kegg adjacent matrices
+├── preproceessing.ipynb   # To generate go adjacent matrices
 ├── sample.py              # To generate negative samples
 ├── requirements.txt       
 └── README.md
