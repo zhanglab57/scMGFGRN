@@ -107,7 +107,7 @@ scMGF-GRNS/
 ```
 
 ### Data preprocessing
-The DNA sequence embedding need to be processed by SequenceEncoder.py and saved to be .npy file to avoid excessive GPU memory usage during training
+The DNA sequence embedding need to be processed by SequenceEncoder.py and saved to be .npy file
 ```
 python SequenceEncoder.py 
 ```
