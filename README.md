@@ -1,4 +1,4 @@
-# scMGF-GRNS
+# scMGFGRN
 
 scMGFGRN: A multi-modal deep learning framework for gene regulatory network inference from single-cell transcriptomic data integrating sequence and functional hierarchy through gated attention fusion 
 ## Overview
