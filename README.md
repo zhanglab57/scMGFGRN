@@ -161,7 +161,7 @@ Across multiple benchmark datasets, scMGF-GRNS achieves superior AUROC and AUPRC
 
 Project Homepage:
 
-https://github.com/zhanglab57/scMGF-GRNS
+https://github.com/zhanglab57/scMGFGRN
 
 ---
 
