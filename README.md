@@ -3,9 +3,9 @@
 Multi-model biological and sequence information fusion for gene regulatory network inference from single-cell transcriptomics
 ## Overview
 
-scMGF-GRNS is a deep learning framework for reconstructing Gene Regulatory Networks (GRNs) from single-cell RNA sequencing (scRNA-seq) data and multi-soure biological knowledge fusion.
+scMGFGRN is a deep learning framework for reconstructing Gene Regulatory Networks (GRNs) from single-cell RNA sequencing (scRNA-seq) data and multi-soure biological knowledge fusion.
 
-Unlike conventional GRN inference methods that rely solely on transcriptomic information, scMGF-GRNS integrates:
+Unlike conventional GRN inference methods that rely solely on transcriptomic information, scMGFGRN integrates:
 
 * Single-cell transcriptomic profiles
 * Gene Ontology (GO) hierarchical relationships 
@@ -43,9 +43,9 @@ Ground-truth networks include:
 ## Installation
 
 ```bash
-git clone https://github.com/zhanglab57/scMGF-GRNS.git
+git clone https://github.com/zhanglab57/scMGFGRN.git
 
-cd scMGF-GRNS
+cd scMGFGRN
 
 conda create -n scmgf python=3.10
 
@@ -76,7 +76,7 @@ pip install numpy pandas scikit-learn
 ## Directory Structure
 
 ```text
-scMGF-GRNS/
+scMGFGRN/
 │
 ├── dataset/
 │   ├── scRNA-seq/
@@ -115,12 +115,12 @@ python SequenceEncoder.py
 We have provided the full dataset on the STRING ground truth network, you can run the code without any preprocessing. For Non-specific  ChIP-seq、Cell-type-specific ChIP-seq、LOF/GOF, The go hierarchy and adjacency matrices for the three Gene Ontology (GO) categories (GO:BP, GO:MF, and GO:CC) are omitted from this repository due to their large size. Users can regenerate these matrices using the provided preprocessing.ipynb notebook.
 
 
-### Train and test the scMGF-GRNS on seven benchmarking scRNAseq, current dataset is mESC-500
+### Train and test the scMGFGRN on seven benchmarking scRNAseq, current dataset is mESC-500
 
 ```bash
 python main.py
 ```
-### To apply scMGF-GRNS to other datasets or your own data, you can reset the training data path to different scRNA-seq ,biological priors and ground truth network by replace the dataset name mESC to another one, for example hESC, mDC.
+### To apply scMGFGRN to other datasets or your own data, you can reset the training data path to different scRNA-seq ,biological priors and ground truth network by replace the dataset name mESC to another one, for example hESC, mDC.
 ```
 #multi-source data
 expression=pd.read_csv('./dataset/scRNA-Seq/STRING Dataset/mESC/TFs+500/ExpressionData.csv')
@@ -145,7 +145,7 @@ The model generates:
 
 ## Results
 
-scMGF-GRNS consistently outperforms existing GRN inference methods, including:
+scMGFGRN consistently outperforms existing GRN inference methods, including:
 
 * GENIE3
 * GRNBoost2
@@ -155,7 +155,7 @@ scMGF-GRNS consistently outperforms existing GRN inference methods, including:
 * GENELink
 * scMGATGRN
 
-Across multiple benchmark datasets, scMGF-GRNS achieves superior AUROC and AUPRC scores while maintaining robustness under highly sparse single-cell conditions.
+Across multiple benchmark datasets, scMGFGRN achieves superior AUROC and AUPRC scores while maintaining robustness under highly sparse single-cell conditions.
 
 ---
 
