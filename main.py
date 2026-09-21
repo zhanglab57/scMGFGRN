@@ -608,8 +608,8 @@ file_path="/home/zhongle/Data/"
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-bert_n_heads=4
-bert_n_layers=2
+bert_n_heads=6
+bert_n_layers=4
 drop_out_rating=0.3
 batch_size=32
 len_after_AE= 1000
