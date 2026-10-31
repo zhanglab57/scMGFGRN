@@ -112,7 +112,7 @@ The DNA sequence need to be processed by SequenceEncoder.py and saved to be gene
 python SequenceEncoder.py 
 ```
 
-The GO hierarchy need to be processed by GOembedding.py and saved to be GO_GAT_pair_embeddings.npy file
+The GO hierarchy need to be processed by GOembedding.py and saved to be GO_GAT_pair_embeddings.npy file, we provided a tutorial on how to prepare the GO graph data and the detailed GO GAT model on GO_embedding_tutorial/GOGRN.ipynb
 ```
 python GOembedding.py 
 ```
