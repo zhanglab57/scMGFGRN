@@ -106,13 +106,13 @@ scMGFGRN/
 └── README.md
 ```
 
-### Data preprocessing
+### Data preprocessing before training and test
 The DNA sequence need to be processed by SequenceEncoder.py and saved to be gene_embeddings.csv file
 ```
 python SequenceEncoder.py 
 ```
 
-The GO hierarchy need to be processed by GO.py and saved to be GO_GAT_pair_embeddings.npy file
+The GO hierarchy need to be processed by GOembedding.py and saved to be GO_GAT_pair_embeddings.npy file
 ```
 python GOembedding.py 
 ```
