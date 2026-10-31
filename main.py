@@ -87,7 +87,7 @@ def prepare():
     expression=pd.read_csv('./dataset/scRNA-Seq/STRING_Dataset/mESC/TFs+500/ExpressionData.csv')
     pesudo_time = pd.read_csv('./dataset/Pseudotime/PseudoTime_mESC.csv')
     GO_embedding = np.load("./dataset/GO-hierarchy/GO_GAT_pair_embeddings.npy")
-    sequence_embedding = pd.read_csv('./dataset/sequence/gene_embeddings.csv')
+    sequence_embedding = pd.read_csv('./dataset/Sequence/gene_embeddings.csv')
     sequence_embedding.set_index('gene', inplace=True)
     sequence_embedding.index = sequence_embedding.index.astype(str).str.upper()
     
