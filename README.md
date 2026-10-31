@@ -120,7 +120,7 @@ python GOembedding.py
 We have provided the full dataset on the STRING ground truth network, you can run the code without any preprocessing. For Non-specific  ChIP-seq、Cell-type-specific ChIP-seq、LOF/GOF, The go hierarchy and adjacency matrices for the three Gene Ontology (GO) categories (GO:BP, GO:MF, and GO:CC) are omitted from this repository due to their large size. Users can regenerate these matrices using the provided preprocessing.ipynb notebook.
 
 
-### Train and test the scMGFGRN on seven benchmarking scRNAseq, current dataset is mESC-500
+### Train and test the scMGFGRN on seven benchmarking scRNAseq
 
 ```bash
 python main.py
