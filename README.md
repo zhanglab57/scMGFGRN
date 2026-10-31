@@ -107,9 +107,14 @@ scMGFGRN/
 ```
 
 ### Data preprocessing
-The DNA sequence embedding need to be processed by SequenceEncoder.py and saved to be .npy file
+The DNA sequence need to be processed by SequenceEncoder.py and saved to be gene_embeddings.csv file
 ```
 python SequenceEncoder.py 
+```
+
+The GO hierarchy need to be processed by GO.py and saved to be GO_GAT_pair_embeddings.npy file
+```
+python GOembedding.py 
 ```
 
 We have provided the full dataset on the STRING ground truth network, you can run the code without any preprocessing. For Non-specific  ChIP-seq、Cell-type-specific ChIP-seq、LOF/GOF, The go hierarchy and adjacency matrices for the three Gene Ontology (GO) categories (GO:BP, GO:MF, and GO:CC) are omitted from this repository due to their large size. Users can regenerate these matrices using the provided preprocessing.ipynb notebook.
@@ -123,10 +128,11 @@ python main.py
 ### To apply scMGFGRN to other datasets or your own data, you can reset the training data path to different scRNA-seq ,biological priors and ground truth network by replace the dataset name mESC to another one, for example hESC, mDC.
 ```
 #multi-source data
-expression=pd.read_csv('./dataset/scRNA-Seq/STRING Dataset/mESC/TFs+500/ExpressionData.csv')
-pesudo_time = pd.read_csv('./dataset/expression_orderd_mESC.csv')
-bp = pd.read_csv('./dataset/scRNA-Seq/STRING Dataset/mESC/TFs+500/mESC_BP.csv')
-
+expression=pd.read_csv('./dataset/scRNA-Seq/STRING_Dataset/mESC/TFs+500/ExpressionData.csv')
+pesudo_time = pd.read_csv('./dataset/Pseudotime/PseudoTime_mESC.csv')
+GO_embedding = np.load("/home/featurize/work/2026/GO/GO_GAT_pair_embeddings.npy")
+sequence_embedding = pd.read_csv('/home/featurize/work/2026/sequence/gene_embeddings.csv')
+    
 #ground truth network
 network_TF_target = pd.read_csv('./dataset/scRNA-Seq/STRING Dataset/mESC/TFs+500/AllPair.csv')
 ```
