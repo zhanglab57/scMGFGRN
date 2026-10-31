@@ -1,3 +1,4 @@
+#2D Gated Attention
 import math
 import torch
 import torch.nn as nn
@@ -102,9 +103,8 @@ class MHRetention(nn.Module):
     def forward(self, x, y=None, v_pos=None, attn_mask=None, seq_mask=None):
         if y is None:
             y = x
-        #B, L1, D = x.shape
-        B, D = x.shape
-        #L2 = y.shape[1]
+        B, L1, D = x.shape
+        L2 = y.shape[1]
 
         q = self.q_proj(x)
         k = self.k_proj(y)
@@ -137,15 +137,18 @@ class MHRetention(nn.Module):
         if v_pos is not None:
             V = V * v_pos
 
+        score = torch.matmul(Q, K.transpose(-1, -2))          # (B, H, L1, L2)
+        self.attn_scores = score.detach()
+
         KV = torch.matmul(K.transpose(-1, -2), V)
         O = torch.matmul(Q, KV)
         O = self.inner_norm(O) * U
 
-        O = O.transpose(1, 2).contiguous().view(B, D)
+        O = O.transpose(1, 2).contiguous().view(B, L1, D)
         O = self.o_proj(O)
         if self.lora > 0:
             O += self.lora_o(O)
-        return O
+        return O,score
 
 
 class GatedLinearUnit(nn.Module):
@@ -166,9 +169,8 @@ class GatedLinearUnit(nn.Module):
             self.lora_o = LoraBlock(emb_dims, emb_dims, lora)
 
     def forward(self, x):
-        B,  D = x.shape
-        #x_flat = x.view(-1, D)
-        x_flat = x
+        B, L, D = x.shape
+        x_flat = x.view(-1, D)
         u = self.u_proj(x_flat)
         v = self.v_proj(x_flat)
 
@@ -183,7 +185,7 @@ class GatedLinearUnit(nn.Module):
             out += self.lora_o(out)
 
         # out = self.norm(out)
-        return out.view(B, D)
+        return out.view(B, L, D)
 
 class RetentionLayer(nn.Module):
     def __init__(self, emb_dims, num_heads, lth=2, dropout=0.0, lora=0, recompute=False):
@@ -196,7 +198,9 @@ class RetentionLayer(nn.Module):
         self.post_norm2 = nn.LayerNorm(emb_dims)
 
     def forward(self, x, **kwargs):
-        out = self.dropout(self.attn(x, **kwargs))
+        out,score = self.attn(x, **kwargs)
+        self.score = score
+        out=self.dropout(out)
         x = self.post_norm1(x * self.alpha + out)
         out = self.dropout(self.ffn(x))
         x = self.post_norm2(x * self.alpha + out)
@@ -214,9 +218,7 @@ class CrossRetentionLayer(nn.Module):
         self.post_norm2 = nn.LayerNorm(emb_dims)
         self.post_norm3 = nn.LayerNorm(emb_dims)
 
-    def forward(self, x, y=None, v_pos=None, attn_mask=None, seq_mask=None):
-        if y is None:
-            y = x
+    def forward(self, x, y, v_pos=None, attn_mask=None, seq_mask=None):
         out = self.attn1(x)
         x = self.post_norm1(x + self.dropout(out))
         out = self.attn2(x, y=y, v_pos=v_pos, attn_mask=attn_mask, seq_mask=seq_mask)
