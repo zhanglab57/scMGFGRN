@@ -158,6 +158,7 @@ def add_mask_noise(x, noise_ratio=0.2):
     corrupted_x = x * mask.float()
     return corrupted_x
 
+
 class DAE(torch.nn.Module):  # Joining together
     def __init__(self, vector_size):
         super(DAE, self).__init__()
@@ -170,6 +171,11 @@ class DAE(torch.nn.Module):  # Joining together
         self.att2 = EncoderLayer((self.vector_size + len_after_AE) // 2, bert_n_heads)
         self.l2 = torch.nn.Linear((self.vector_size + len_after_AE) // 2, len_after_AE)
 
+
+        self.glu = GatedLinearUnit(len_after_AE)  # GLU after l3
+        self.bn_glu = torch.nn.BatchNorm1d(len_after_AE)
+
+
         self.l3 = torch.nn.Linear(len_after_AE, (self.vector_size + len_after_AE) // 2)
         self.bn3 = torch.nn.BatchNorm1d((self.vector_size + len_after_AE) // 2)
 
@@ -180,19 +186,23 @@ class DAE(torch.nn.Module):  # Joining together
 
     def forward(self, X):
 
-        #if self.training:
-            #X = add_mask_noise(X)
+        if self.training:
+            X = add_mask_noise(X)
         
         X = self.dr(self.bn1(self.ac(self.l1(X))))
 
         X = self.att2(X)
-        X = self.l2(X)
+        X = self.l2(X)   #812
 
+        X = self.glu(X)   #812                       # GLU after l3
+        X = self.dr(self.bn_glu(self.ac(X)))             #3142
+        
         X_AE = self.dr(self.bn3(self.ac(self.l3(X))))
 
         X_AE = self.l4(X_AE)
 
         return X, X_AE
+
 
 
 class MultiHeadAttention(torch.nn.Module):
