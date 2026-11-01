@@ -106,7 +106,7 @@ scMGFGRN/
 └── README.md
 ```
 
-### Data preprocessing before training and test
+### Data preprocessing before training and testing
 The DNA sequence need to be processed by SequenceEncoder.py and saved to be gene_embeddings.csv file
 ```
 python SequenceEncoder.py 
